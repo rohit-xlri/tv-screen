@@ -5,7 +5,7 @@ import EditVideoDialog from '../components/editVideoDialog'
 import EditPostDialog from '../components/editPostDialog'
 import EditNoticeDialog from '../components/editNoticeDialog'
 
-export default function page() {
+export default function Admin() {
 
     const [display, setDisplay] = useState([])
     const [videoUrl, setVideoUrl] = useState("")
