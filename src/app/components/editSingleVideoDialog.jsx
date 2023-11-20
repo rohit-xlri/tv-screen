@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function EditVideoDialog({ open, setOpen, update }) {
+export default function EditSingleVideoDialog({ open, setOpen, update }) {
   const [videoUrl, setVideoUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpdateVideo = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.put(`api/display/video/${open?._id}`, {
+      const response = await axios.put(`api/display/singlevideo/${open?._id}`, {
         url: videoUrl,
         isYoutube:open?.isYoutube
       });
@@ -34,7 +34,7 @@ export default function EditVideoDialog({ open, setOpen, update }) {
           open ? "" : "hidden"
         }`}
       >
-        <div className="fixed z-40 m-auto inset-x-0 inset-y-0 w-fit h-fit p-4 bg-gray-900 rounded-lg">
+        <div className="fixed z-10 m-auto inset-x-0 inset-y-0 w-fit h-fit p-4 bg-gray-900 rounded-lg">
           <button
             onClick={() => setOpen(false)}
             className="absolute top-3 right-3 text-gray-400 hover:text-gray-300 text-2xl font-semibold "
@@ -58,7 +58,7 @@ export default function EditVideoDialog({ open, setOpen, update }) {
           </video>
           }
           <div className="flex items-center gap-4 mt-4">
-            <label htmlFor="">Enter video ID/URL:</label>
+            <label htmlFor="">Enter video id:</label>
             <input
               type="text"
               className="bg-gray-800 p-2 rounded-lg"

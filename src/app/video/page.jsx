@@ -2,25 +2,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import YouTube from "react-youtube";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-
-//http://192.168.50.201:8080/
 
 export default function Home() {
   const [display, setDisplay] = useState([]);
   const [videoIndex, setvideoIndex] = useState(0);
-  const [view, setView] = useState("template1");
   const [showLoader, setShowLoader] = useState(false);
 
   const getDisplay = async () => {
     setShowLoader(true);
     try {
-      const response = await axios.get("api/display");
-      setView(response.data?.display?.view);
+      const response = await axios.get("api/display/singlevideo");
       setDisplay(response.data);
     } catch (error) {
       console.log(error);
@@ -28,8 +19,6 @@ export default function Home() {
       setShowLoader(false);
     }
   };
-
-  console.log(display)
 
   const playNextVideo = () => {
     if (display?.videos?.length > videoIndex + 1) {
@@ -70,13 +59,8 @@ export default function Home() {
           <span className="sr-only">Loading...</span>
         </div>
       </div>
-
-      <div className="p-2 h-screen">
-        <div className="flex h-[77%]">
-          <div className="w-3/4 h-full">
-            <div className="h-full p-2 rounded-lg">
-              <div className="h-full bg-gray-600 rounded-lg shadow-lg p-2">
-                {
+        <div className="h-screen w-full">
+        {
                   display?.videos?
                 display?.videos?.[videoIndex]?.isYoutube ? (
                   <YouTube
@@ -108,77 +92,7 @@ export default function Home() {
                     <source src={display?.videos?.[videoIndex]?.url} type="video/mp4"/>
                   </video>
                 ):""}
-              </div>
-            </div>
-          </div>
-          <div className="w-1/4 h-full">
-            <div className="h-1/3 p-2 rounded-lg">
-              <div className="h-full  rounded-lg shadow-lg p-2 flex justify-center items-center">
-                <iframe
-                  src="https://xlri.ac.in/logo.html"
-                  scrolling="no"
-                  className="overflow-hidden w-full h-full"
-                  allowfullscreen
-                  frameBorder="0"
-                ></iframe>
-              </div>
-            </div>
-            <div className="h-2/3 p-2 rounded-lg">
-              <div className="h-full w-full bg-gray-600 rounded-lg shadow-lg p-2 flex justify-center items-center">
-                {display?.posts ? (
-                  <Swiper
-                    loop
-                    modules={[Autoplay]}
-                    pagination={{ clickable: true }}
-                    slidesPerView={1}
-                    autoplay={{
-                      delay: 7000,
-                      pauseOnMouseEnter: false,
-                      disableOnInteraction: false,
-                    }}
-                    className="mySwiper"
-                  >
-                    {display?.posts?.map((e,i) => {
-                      return (
-                        <SwiperSlide key={i}>
-                          <img
-                            className="w-full h-full object-cover overflow-hidden"
-                            width={800}
-                            src={e?.url}
-                          />
-                        </SwiperSlide>
-                      );
-                    })}
-                  </Swiper>
-                ) : (
-                  ""
-                )}
-                {/* <img width={800} src={display?.posts?.[postIndex]?.url} />      */}
-              </div>
-            </div>
-          </div>
         </div>
-        <div className="h-[23%] p-2 rounded-lg">
-          <div className="h-full bg-[#10316a] rounded-lg shadow-lg p-2 flex items-center flex-col">
-            <div className="w-full h-6 bg-[#b2d22e] rounded-t-lg"></div>
-            <marquee
-              behavior="scroll"
-              scrollamount="40"
-              width="100%"
-              direction="left"
-              height="100%"
-              className="text-[120px] font-bold text-white flex items-center"
-            >
-              <p>
-                {display?.notices?.map((e,i) => {
-                  return <p key={i}>{e?.text} &nbsp;|&nbsp;</p>;
-                })}
-              </p>
-            </marquee>
-            <div className="w-full h-6 bg-[#b2d22e] rounded-b-lg"></div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

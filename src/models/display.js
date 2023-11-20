@@ -1,16 +1,12 @@
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
-    url:{
+    view:{
         type:String,
         required:true
-    },
-    isYoutube:{
-        type:Boolean,
-        default:false
     }
 })
 
 mongoose.models = {}
 
-export const Video = mongoose.model("Video", schema)
+export const Display = mongoose.model("Display", schema)

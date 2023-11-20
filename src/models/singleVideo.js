@@ -13,4 +13,4 @@ const schema = new mongoose.Schema({
 
 mongoose.models = {}
 
-export const Video = mongoose.model("Video", schema)
+export const SingleVideo = mongoose.model("SingleVideo", schema)
