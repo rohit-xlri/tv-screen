@@ -11,6 +11,7 @@ export default function Admin() {
 
     const [display, setDisplay] = useState([])
     const [view, setView] = useState("template1")
+    const [onLoop, setOnLoop] = useState(false)
     const [videoUrl, setVideoUrl] = useState("")
     const [post, setPost] = useState("")
     const [notice, setNotice] = useState("")
@@ -184,7 +185,7 @@ const handleDeleteNotice = async (id) => {
         try {
           setShowLoader(true)
           const response = await axios.get("api/display")
-          setView(response.data?.display?.view)
+          setOnLoop(response.data?.display?.onLoop)
           setDisplay(response.data)
         } catch (error) {
           console.log(error)
@@ -195,7 +196,7 @@ const handleDeleteNotice = async (id) => {
 
       const updateDisplay = async (id,e) => {
         try {
-          const response = await axios.put(`api/display/${id}`,{view:e})
+          const response = await axios.put(`api/display/${id}`,{onLoop:e})
         } catch (error) {
           console.log(error)
         } finally{
@@ -205,7 +206,7 @@ const handleDeleteNotice = async (id) => {
 
       // useEffect(() => {
       //   updateDisplay()
-      // }, [view])
+      // }, [view, onLoop])
       
     
       useEffect(() => {
@@ -234,14 +235,13 @@ const handleDeleteNotice = async (id) => {
     <div className='max-w-screen-xl py-12 mx-auto'>
     <div className="flex justify-between">
         <h1 className='text-center text-3xl font-bold'>TV SCREEN</h1>
-        {/* <div>
-        <label>Display View:</label>
-        <select className='bg-gray-700 px-4 py-2 ml-2 rounded-lg' value={view} onChange={(e)=>updateDisplay(display?.display?._id,e.target.value)}>
-          <option value="template1">Template-1</option>
-          <option value="video">Single Video</option>
-          <option value="post">Single Post</option>
+        <div>
+        <label>On Loop:</label>
+        <select className='bg-gray-700 px-4 py-2 ml-2 rounded-lg' value={onLoop} onChange={(e)=>updateDisplay(display?.display?._id,e.target.value)}>
+          <option value={true}>True</option>
+          <option value={false}>False</option>
         </select>
-        </div> */}
+        </div>
       </div>
         <div className='p-4 border-2 border-gray-600 rounded-lg my-8'>
         <h1 className='text-2xl font-semibold mb-8 text-center'>Main Video</h1>

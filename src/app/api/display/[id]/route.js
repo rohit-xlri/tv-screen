@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { Display } from "@/models/display";
 
 export async function PUT(request, { params }) {
-    const { view } = await request.json();
+    // const { view } = await request.json();
+    const { onLoop } = await request.json();
     const { id } = params;
     try {
       const display = await Display.findById(id);
-      display.view = view;
+      // display.view = view;
+      display.onLoop = onLoop;
       const updatedDisplay = display.save();
       return NextResponse.json(
         { message: "View updated successfully", success: true },

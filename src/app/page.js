@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import YouTube from "react-youtube";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,12 +15,13 @@ export default function Home() {
   const [videoIndex, setvideoIndex] = useState(0);
   const [view, setView] = useState("template1");
   const [showLoader, setShowLoader] = useState(false);
+  const [onLoop, setOnLoop] = useState(false)
 
   const getDisplay = async () => {
     setShowLoader(true);
     try {
       const response = await axios.get("api/display");
-      setView(response.data?.display?.view);
+      setOnLoop(response.data?.display?.onLoop);
       setDisplay(response.data);
     } catch (error) {
       console.log(error);
@@ -29,15 +30,17 @@ export default function Home() {
     }
   };
 
-  console.log(display)
-
   const playNextVideo = () => {
     if (display?.videos?.length > videoIndex + 1) {
       setvideoIndex(videoIndex + 1);
+      console.log("if cond")
     } else {
       setvideoIndex(0);
+      console.log("else cond")
     }
   };
+
+  console.log(onLoop)
 
   useEffect(() => {
     getDisplay();
@@ -90,20 +93,19 @@ export default function Home() {
                         autoplay: 1,
                         controls: 0,
                         mute: 1,
-                        loop: 1,
+                        loop:onLoop
                       },
                     }}
                   />
                 ) : (
                   <video
-                    // fluid={false}
                     height={"100%"}
                     width={"100%"}
                     className="max-w-[100%] max-h-[100%]"
                     autoPlay
                     muted={true}
                     onEnded={playNextVideo}
-
+                    loop={onLoop}
                   >
                     <source src={display?.videos?.[videoIndex]?.url} type="video/mp4"/>
                   </video>

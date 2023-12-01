@@ -4,6 +4,10 @@ const schema = new mongoose.Schema({
     view:{
         type:String,
         required:true
+    },
+    onLoop:{
+        type:Boolean,
+        default:false
     }
 })
 
